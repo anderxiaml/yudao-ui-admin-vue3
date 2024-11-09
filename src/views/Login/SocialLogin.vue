@@ -9,7 +9,7 @@
       >
         <!-- 左上角的 logo + 系统标题 -->
         <div class="relative flex items-center text-white">
-          <img alt="" class="mr-10px h-48px w-48px" src="@/assets/imgs/logo.png" />
+          <img alt="" class="mr-10px h-48px w-48px" src="@/assets/imgs/logo.png"/>
           <span class="text-20px font-bold">{{ underlineToHump(appStore.getTitle) }}</span>
         </div>
         <!-- 左边的背景图 + 欢迎语 -->
@@ -19,7 +19,7 @@
             enter-active-class="animate__animated animate__bounceInLeft"
             tag="div"
           >
-            <img key="1" alt="" class="w-350px" src="@/assets/svgs/login-box-bg.svg" />
+            <img key="1" alt="" class="w-350px" src="@/assets/svgs/awsvh-7h05n.svg"/>
             <div key="2" class="text-3xl text-white">{{ t('login.welcome') }}</div>
             <div key="3" class="mt-5 text-14px font-normal text-white">
               {{ t('login.message') }}
@@ -35,12 +35,12 @@
           class="flex items-center justify-between text-white at-2xl:justify-end at-xl:justify-end"
         >
           <div class="flex items-center at-2xl:hidden at-xl:hidden">
-            <img alt="" class="mr-10px h-48px w-48px" src="@/assets/imgs/logo.png" />
+            <img alt="" class="mr-10px h-48px w-48px" src="@/assets/imgs/logo.png"/>
             <span class="text-20px font-bold">{{ underlineToHump(appStore.getTitle) }}</span>
           </div>
           <div class="flex items-center justify-end space-x-10px h-48px">
-            <ThemeSwitch />
-            <LocaleDropdown class="dark:text-white lt-xl:text-white" />
+            <ThemeSwitch/>
+            <LocaleDropdown class="dark:text-white lt-xl:text-white"/>
           </div>
         </div>
         <!-- 右边的登录界面 -->
@@ -62,7 +62,7 @@
               <el-row style="margin-right: -10px; margin-left: -10px">
                 <el-col :span="24" style="padding-right: 10px; padding-left: 10px">
                   <el-form-item>
-                    <LoginFormTitle style="width: 100%" />
+                    <LoginFormTitle style="width: 100%"/>
                   </el-form-item>
                 </el-col>
                 <el-col :span="24" style="padding-right: 10px; padding-left: 10px">
@@ -115,7 +115,7 @@
                       </el-col>
                       <el-col :offset="6" :span="12">
                         <el-link style="float: right" type="primary"
-                          >{{ t('login.forgetPassword') }}
+                        >{{ t('login.forgetPassword') }}
                         </el-link>
                       </el-col>
                     </el-row>
@@ -149,38 +149,38 @@
 </template>
 
 <script lang="ts" setup>
-import { underlineToHump } from '@/utils'
+import {underlineToHump} from '@/utils'
 
-import { ElLoading } from 'element-plus'
+import {ElLoading} from 'element-plus'
 
-import { useDesign } from '@/hooks/web/useDesign'
-import { useAppStore } from '@/store/modules/app'
-import { useIcon } from '@/hooks/web/useIcon'
-import { usePermissionStore } from '@/store/modules/permission'
+import {useDesign} from '@/hooks/web/useDesign'
+import {useAppStore} from '@/store/modules/app'
+import {useIcon} from '@/hooks/web/useIcon'
+import {usePermissionStore} from '@/store/modules/permission'
 
 import * as LoginApi from '@/api/login'
 import * as authUtil from '@/utils/auth'
-import { ThemeSwitch } from '@/layout/components/ThemeSwitch'
-import { LocaleDropdown } from '@/layout/components/LocaleDropdown'
-import { LoginStateEnum, useFormValid, useLoginState } from './components/useLogin'
+import {ThemeSwitch} from '@/layout/components/ThemeSwitch'
+import {LocaleDropdown} from '@/layout/components/LocaleDropdown'
+import {LoginStateEnum, useFormValid, useLoginState} from './components/useLogin'
 import LoginFormTitle from './components/LoginFormTitle.vue'
 import router from '@/router'
 
-defineOptions({ name: 'SocialLogin' })
+defineOptions({name: 'SocialLogin'})
 
-const { t } = useI18n()
+const {t} = useI18n()
 const route = useRoute()
 
 const appStore = useAppStore()
-const { getPrefixCls } = useDesign()
+const {getPrefixCls} = useDesign()
 const prefixCls = getPrefixCls('login')
-const iconHouse = useIcon({ icon: 'ep:house' })
-const iconAvatar = useIcon({ icon: 'ep:avatar' })
-const iconLock = useIcon({ icon: 'ep:lock' })
+const iconHouse = useIcon({icon: 'ep:house'})
+const iconAvatar = useIcon({icon: 'ep:avatar'})
+const iconLock = useIcon({icon: 'ep:lock'})
 const formLogin = ref<any>()
-const { validForm } = useFormValid(formLogin)
-const { getLoginState } = useLoginState()
-const { push } = useRouter()
+const {validForm} = useFormValid(formLogin)
+const {getLoginState} = useLoginState()
+const {push} = useRouter()
 const permissionStore = usePermissionStore()
 const loginLoading = ref(false)
 const verify = ref()
@@ -198,9 +198,9 @@ const loginData = reactive({
   captchaEnable: import.meta.env.VITE_APP_CAPTCHA_ENABLE !== 'false',
   tenantEnable: import.meta.env.VITE_APP_TENANT_ENABLE !== 'false',
   loginForm: {
-    tenantName: '芋道源码',
-    username: 'admin',
-    password: 'admin123',
+    tenantName: '',
+    username: '',
+    password: '',
     captchaVerification: '',
     rememberMe: false
   }
@@ -256,8 +256,9 @@ const tryLogin = async () => {
     const res = await LoginApi.socialLogin(type, code, state)
     authUtil.setToken(res)
 
-    router.push({ path: redirect || '/' })
-  } catch (err) {}
+    router.push({path: redirect || '/'})
+  } catch (err) {
+  }
 }
 
 // 登录
@@ -276,7 +277,7 @@ const handleLogin = async (params) => {
     const code = route?.query?.code as string
     const state = route?.query?.state as string
 
-    const loginDataLoginForm = { ...loginData.loginForm }
+    const loginDataLoginForm = {...loginData.loginForm}
     const res = await LoginApi.login({
       // 账号密码登录
       username: loginDataLoginForm.username,
@@ -308,7 +309,7 @@ const handleLogin = async (params) => {
     if (redirect.indexOf('sso') !== -1) {
       window.location.href = window.location.href.replace('/login?redirect=', '')
     } else {
-      push({ path: redirect || permissionStore.addRouters[0].path })
+      push({path: redirect || permissionStore.addRouters[0].path})
     }
   } finally {
     loginLoading.value = false
