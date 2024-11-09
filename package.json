@@ -6,7 +6,8 @@
   "private": false,
   "scripts": {
     "i": "pnpm install",
-    "dev": "vite --mode env.local",
+    "dev": "vite --mode env.dev",
+    "local": "vite --mode env.local",
     "dev-server": "vite --mode dev",
     "ts:check": "vue-tsc --noEmit",
     "build:local": "node ./node_modules/vite/bin/vite.js build",
