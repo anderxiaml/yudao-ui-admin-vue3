@@ -96,7 +96,7 @@ const loginData = reactive({
     username: import.meta.env.VITE_APP_DEFAULT_LOGIN_USERNAME || '',
     password: import.meta.env.VITE_APP_DEFAULT_LOGIN_PASSWORD || '',
     captchaVerification: '',
-    rememberMe: true // 默认记录我。如果不需要，可手动修改
+    rememberMe: false // 默认记录我。如果不需要，可手动修改
   }
 })
 
@@ -133,8 +133,8 @@ const getLoginFormCache = () => {
       ...loginData.loginForm,
       username: loginForm.username ? loginForm.username : loginData.loginForm.username,
       password: loginForm.password ? loginForm.password : loginData.loginForm.password,
-      rememberMe: loginForm.rememberMe,
-      tenantName: loginForm.tenantName ? loginForm.tenantName : loginData.loginForm.tenantName
+      rememberMe: false,
+      tenantName: ''
     }
   }
 }
