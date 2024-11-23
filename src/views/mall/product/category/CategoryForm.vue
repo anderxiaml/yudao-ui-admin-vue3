@@ -7,37 +7,18 @@
       label-width="120px"
       v-loading="formLoading"
     >
-      <el-form-item label="上级分类" prop="parentId">
-        <el-select v-model="formData.parentId" placeholder="请选择上级分类">
-          <el-option :key="0" label="顶级分类" :value="0" />
-          <el-option
-            v-for="item in categoryList"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id"
-          />
-        </el-select>
-      </el-form-item>
       <el-form-item label="分类名称" prop="name">
         <el-input v-model="formData.name" placeholder="请输入分类名称" />
       </el-form-item>
-      <el-form-item label="移动端分类图" prop="picUrl">
-        <UploadImg v-model="formData.picUrl" :limit="1" :is-show-tip="false" />
-        <div style="font-size: 10px" class="pl-10px">推荐 180x180 图片分辨率</div>
-      </el-form-item>
-      <el-form-item label="分类排序" prop="sort">
-        <el-input-number v-model="formData.sort" controls-position="right" :min="0" />
-      </el-form-item>
-      <el-form-item label="开启状态" prop="status">
-        <el-radio-group v-model="formData.status">
-          <el-radio
+      <el-form-item label="分类状态" prop="status">
+        <el-select v-model="formData.status" placeholder="请选择状态">
+          <el-option
             v-for="dict in getIntDictOptions(DICT_TYPE.COMMON_STATUS)"
             :key="dict.value"
+            :label="dict.label"
             :value="dict.value"
-          >
-            {{ dict.label }}
-          </el-radio>
-        </el-radio-group>
+          />
+        </el-select>
       </el-form-item>
     </el-form>
     <template #footer>
@@ -47,7 +28,7 @@
   </Dialog>
 </template>
 <script lang="ts" setup>
-import { DICT_TYPE, getIntDictOptions } from '@/utils/dict'
+import { DICT_TYPE, getIntDictOptions, getDictOptions } from '@/utils/dict'
 import { CommonStatusEnum } from '@/utils/constants'
 import * as ProductCategoryApi from '@/api/mall/product/category'
 
@@ -64,7 +45,7 @@ const formData = ref({
   id: undefined,
   name: '',
   picUrl: '',
-  status: CommonStatusEnum.ENABLE
+  status: +getDictOptions(DICT_TYPE.COMMON_STATUS)[0]?.value
 })
 const formRules = reactive({
   parentId: [{ required: true, message: '请选择上级分类', trigger: 'blur' }],
@@ -128,7 +109,7 @@ const resetForm = () => {
     id: undefined,
     name: '',
     picUrl: '',
-    status: CommonStatusEnum.ENABLE
+    status: +getDictOptions(DICT_TYPE.COMMON_STATUS)[0]?.value
   }
   formRef.value?.resetFields()
 }

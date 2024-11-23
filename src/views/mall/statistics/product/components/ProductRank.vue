@@ -3,15 +3,15 @@
     <template #header>
       <!-- 标题 -->
       <div class="flex flex-row items-center justify-between">
-        <CardTitle title="商品排行" />
+        <CardTitle title="点餐排行" />
         <!-- 查询条件 -->
         <ShortcutDateRangePicker ref="shortcutDateRangePicker" @change="handleDateRangeChange" />
       </div>
     </template>
     <!-- 排行列表 -->
     <el-table v-loading="loading" :data="list" @sort-change="handleSortChange">
-      <el-table-column label="商品ID" prop="spuId" min-width="70" />
-      <el-table-column label="商品图片" align="center" prop="picUrl" width="80">
+      <el-table-column label="菜品编号" prop="spuId" min-width="80" />
+      <el-table-column label="菜品图片" align="center" prop="picUrl" width="80">
         <template #default="{ row }">
           <el-image
             :src="row.picUrl"
@@ -21,14 +21,13 @@
           />
         </template>
       </el-table-column>
-      <el-table-column label="商品名称" prop="name" min-width="200" :show-overflow-tooltip="true" />
+      <el-table-column label="菜品名称" prop="name" min-width="200" :show-overflow-tooltip="true" />
       <el-table-column label="浏览量" prop="browseCount" min-width="90" sortable="custom" />
       <el-table-column label="访客数" prop="browseUserCount" min-width="90" sortable="custom" />
       <el-table-column label="加购件数" prop="cartCount" min-width="105" sortable="custom" />
       <el-table-column label="下单件数" prop="orderCount" min-width="105" sortable="custom" />
       <el-table-column label="支付件数" prop="orderPayCount" min-width="105" sortable="custom" />
       <el-table-column label="支付金额" prop="orderPayPrice" min-width="105" sortable="custom" />
-      <el-table-column label="收藏数" prop="favoriteCount" min-width="90" sortable="custom" />
       <el-table-column
         label="访客-支付转化率(%)"
         prop="browseConvertPercent"

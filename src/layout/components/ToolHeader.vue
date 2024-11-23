@@ -69,15 +69,15 @@ export default defineComponent({
           {size.value ? (
             <SizeDropdown class="custom-hover" color="var(--top-header-text-color)"></SizeDropdown>
           ) : undefined}
-          {locale.value ? (
+          {/* {locale.value ? (
             <LocaleDropdown
               class="custom-hover"
               color="var(--top-header-text-color)"
             ></LocaleDropdown>
-          ) : undefined}
-          {message.value ? (
+          ) : undefined} */}
+          {/* {message.value ? (
             <Message class="custom-hover" color="var(--top-header-text-color)"></Message>
-          ) : undefined}
+          ) : undefined} */}
           <UserInfo></UserInfo>
         </div>
       </div>

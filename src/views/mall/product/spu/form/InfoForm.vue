@@ -1,19 +1,10 @@
 <!-- 商品发布 - 基础设置 -->
 <template>
   <el-form ref="formRef" :disabled="isDetail" :model="formData" :rules="rules" label-width="120px">
-    <el-form-item label="商品名称" prop="name">
-      <el-input
-        v-model="formData.name"
-        :autosize="{ minRows: 2, maxRows: 2 }"
-        :clearable="true"
-        :show-word-limit="true"
-        class="w-80!"
-        maxlength="64"
-        placeholder="请输入商品名称"
-        type="textarea"
-      />
+    <el-form-item label="菜品名称" prop="name">
+      <el-input v-model="formData.name" class="w-80!" placeholder="请输入菜品名称" />
     </el-form-item>
-    <el-form-item label="商品分类" prop="categoryId">
+    <el-form-item label="菜品分类" prop="categoryId">
       <el-cascader
         v-model="formData.categoryId"
         :options="categoryList"
@@ -21,39 +12,42 @@
         class="w-80"
         clearable
         filterable
-        placeholder="请选择商品分类"
+        placeholder="请选择菜品分类"
       />
     </el-form-item>
-    <el-form-item label="商品品牌" prop="brandId">
-      <el-select v-model="formData.brandId" class="w-80" placeholder="请选择商品品牌">
+    <el-form-item label="菜品规格" prop="categoryId">
+      <el-cascader
+        v-model="formData.categoryId"
+        :options="categoryList"
+        :props="defaultProps"
+        class="w-80"
+        clearable
+        filterable
+        placeholder="请选择菜品规格"
+      />
+    </el-form-item>
+    <el-form-item label="菜品价格" prop="price">
+      <el-input-number
+        v-model="formData.price"
+        :min="0"
+        :precision="2"
+        :step="0.1"
+        class="w-100%"
+        controls-position="right"
+      />
+    </el-form-item>
+    <el-form-item label="菜品状态" prop="status">
+      <el-select v-model="formData.status" class="w-80!" placeholder="请选择状态">
         <el-option
-          v-for="item in brandList"
-          :key="item.id"
-          :label="item.name"
-          :value="item.id as number"
+          v-for="dict in getIntDictOptions(DICT_TYPE.PRODUCT_SPU_STATUS)"
+          :key="dict.value"
+          :label="dict.label"
+          :value="dict.value"
         />
       </el-select>
     </el-form-item>
-    <el-form-item label="商品关键字" prop="keyword">
-      <el-input v-model="formData.keyword" class="w-80!" placeholder="请输入商品关键字" />
-    </el-form-item>
-    <el-form-item label="商品简介" prop="introduction">
-      <el-input
-        v-model="formData.introduction"
-        :autosize="{ minRows: 2, maxRows: 2 }"
-        :clearable="true"
-        :show-word-limit="true"
-        class="w-80!"
-        maxlength="128"
-        placeholder="请输入商品简介"
-        type="textarea"
-      />
-    </el-form-item>
-    <el-form-item label="商品封面图" prop="picUrl">
+    <el-form-item label="菜品图" prop="picUrl">
       <UploadImg v-model="formData.picUrl" :disabled="isDetail" height="80px" />
-    </el-form-item>
-    <el-form-item label="商品轮播图" prop="sliderPicUrls">
-      <UploadImgs v-model="formData.sliderPicUrls" :disabled="isDetail" />
     </el-form-item>
   </el-form>
 </template>
@@ -62,6 +56,7 @@ import { PropType } from 'vue'
 import { copyValueToTarget } from '@/utils'
 import { propTypes } from '@/utils/propTypes'
 import { defaultProps, handleTree } from '@/utils/tree'
+import { DICT_TYPE, getIntDictOptions } from '@/utils/dict'
 import type { Spu } from '@/api/mall/product/spu'
 import * as ProductCategoryApi from '@/api/mall/product/category'
 import { CategoryVO } from '@/api/mall/product/category'
@@ -83,6 +78,8 @@ const formRef = ref() // 表单 Ref
 const formData = reactive<Spu>({
   name: '', // 商品名称
   categoryId: undefined, // 商品分类
+  price: 0,
+  status: undefined,
   keyword: '', // 关键字
   picUrl: '', // 商品封面图
   sliderPicUrls: [], // 商品轮播图
@@ -92,6 +89,8 @@ const formData = reactive<Spu>({
 const rules = reactive({
   name: [required],
   categoryId: [required],
+  price: [required],
+  status: [required],
   keyword: [required],
   introduction: [required],
   picUrl: [required],

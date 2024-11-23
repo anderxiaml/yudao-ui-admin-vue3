@@ -1,7 +1,21 @@
 <template>
-  <doc-alert title="商城手册（功能开启）" url="https://doc.iocoder.cn/mall/build/" />
+  <!-- <doc-alert title="商城手册（功能开启）" url="https://doc.iocoder.cn/mall/build/" /> -->
 
   <div class="flex flex-col">
+    <el-row :gutter="16" class="row">
+      <el-col>
+        <div class="flex items-center bg-[var(--el-bg-color-overlay)] p-6">
+          <el-avatar :src="avatar" :size="70" class="mr-16px">
+            <img src="@/assets/imgs/avatar.gif" alt="" />
+          </el-avatar>
+          <div>
+            <div class="text-20px">
+              {{ t('workplace.welcome') }} {{ username }} {{ t('workplace.happyDay') }}
+            </div>
+          </div>
+        </div>
+      </el-col>
+    </el-row>
     <!-- 数据对照 -->
     <el-row :gutter="16" class="row">
       <el-col :md="6" :sm="12" :xs="24" :loading="loading">
@@ -17,7 +31,7 @@
       <el-col :md="6" :sm="12" :xs="24" :loading="loading">
         <ComparisonCard
           tag="今日"
-          title="用户访问量"
+          title="点餐用户量"
           :value="userComparison?.value?.visitUserCount || 0"
           :reference="userComparison?.reference?.visitUserCount || 0"
         />
@@ -33,7 +47,7 @@
       <el-col :md="6" :sm="12" :xs="24" :loading="loading">
         <ComparisonCard
           tag="今日"
-          title="新增用户"
+          title="菜品量"
           :value="userComparison?.value?.registerUserCount || 0"
           :reference="userComparison?.reference?.registerUserCount || 0"
         />
@@ -50,13 +64,9 @@
       </el-col>
     </el-row>
     <el-row :gutter="16" class="mb-4">
-      <el-col :md="18" :sm="24">
+      <el-col>
         <!-- 会员概览 -->
         <MemberFunnelCard />
-      </el-col>
-      <el-col :md="6" :sm="24">
-        <!-- 会员终端 -->
-        <MemberTerminalCard />
       </el-col>
     </el-row>
     <!-- 交易量趋势 -->
@@ -72,6 +82,7 @@ import { DataComparisonRespVO } from '@/api/mall/statistics/common'
 import { TradeOrderSummaryRespVO } from '@/api/mall/statistics/trade'
 import { MemberCountRespVO } from '@/api/mall/statistics/member'
 import { fenToYuan } from '@/utils'
+import { useUserStore } from '@/store/modules/user'
 import ComparisonCard from './components/ComparisonCard.vue'
 import MemberStatisticsCard from './components/MemberStatisticsCard.vue'
 import OperationDataCard from './components/OperationDataCard.vue'
@@ -83,7 +94,11 @@ import MemberFunnelCard from '@/views/mall/statistics/member/components/MemberFu
 /** 商城首页 */
 defineOptions({ name: 'MallHome' })
 
+const { t } = useI18n()
+const userStore = useUserStore()
 const loading = ref(true) // 加载中
+const avatar = userStore.getUser.avatar
+const username = userStore.getUser.nickname
 const orderComparison = ref<DataComparisonRespVO<TradeOrderSummaryRespVO>>() // 交易对照数据
 const userComparison = ref<DataComparisonRespVO<MemberCountRespVO>>() // 用户对照数据
 

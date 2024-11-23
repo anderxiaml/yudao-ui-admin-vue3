@@ -31,43 +31,29 @@ const router = useRouter() // 路由
 
 /** 菜单列表 */
 const menuList = [
-  { name: '用户管理', icon: 'ep:user-filled', bgColor: 'bg-red-400', routerName: 'MemberUser' },
   {
-    name: '商品管理',
+    name: '订单管理',
+    icon: 'ep:list',
+    bgColor: 'bg-yellow-500',
+    routerName: 'TradeOrder'
+  },
+  {
+    name: '菜品管理',
     icon: 'fluent-mdl2:product',
     bgColor: 'bg-orange-400',
     routerName: 'ProductSpu'
   },
-  { name: '订单管理', icon: 'ep:list', bgColor: 'bg-yellow-500', routerName: 'TradeOrder' },
   {
-    name: '售后管理',
-    icon: 'ri:refund-2-line',
-    bgColor: 'bg-green-600',
-    routerName: 'TradeAfterSale'
+    name: '套餐管理',
+    icon: 'fluent-mdl2:product',
+    bgColor: 'bg-orange-400',
+    routerName: 'ProductSpu'
   },
   {
-    name: '分销管理',
-    icon: 'fa-solid:project-diagram',
-    bgColor: 'bg-cyan-500',
-    routerName: 'TradeBrokerageUser'
-  },
-  {
-    name: '优惠券',
-    icon: 'ep:ticket',
-    bgColor: 'bg-blue-500',
-    routerName: 'PromotionCoupon'
-  },
-  {
-    name: '拼团活动',
-    icon: 'fa:group',
-    bgColor: 'bg-purple-500',
-    routerName: 'PromotionBargainActivity'
-  },
-  {
-    name: '佣金提现',
-    icon: 'vaadin:money-withdraw',
-    bgColor: 'bg-rose-500',
-    routerName: 'TradeBrokerageWithdraw'
+    name: '统计中心',
+    icon: 'fluent-mdl2:product',
+    bgColor: 'bg-orange-400',
+    routerName: 'ProductSpu'
   }
 ]
 

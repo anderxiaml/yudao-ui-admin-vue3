@@ -1,47 +1,11 @@
 <template>
   <ContentWrap v-loading="formLoading">
-    <el-tabs v-model="activeName">
-      <el-tab-pane label="基础设置" name="info">
-        <InfoForm
-          ref="infoRef"
-          v-model:activeName="activeName"
-          :is-detail="isDetail"
-          :propFormData="formData"
-        />
-      </el-tab-pane>
-      <el-tab-pane label="价格库存" name="sku">
-        <SkuForm
-          ref="skuRef"
-          v-model:activeName="activeName"
-          :is-detail="isDetail"
-          :propFormData="formData"
-        />
-      </el-tab-pane>
-      <el-tab-pane label="物流设置" name="delivery">
-        <DeliveryForm
-          ref="deliveryRef"
-          v-model:activeName="activeName"
-          :is-detail="isDetail"
-          :propFormData="formData"
-        />
-      </el-tab-pane>
-      <el-tab-pane label="商品详情" name="description">
-        <DescriptionForm
-          ref="descriptionRef"
-          v-model:activeName="activeName"
-          :is-detail="isDetail"
-          :propFormData="formData"
-        />
-      </el-tab-pane>
-      <el-tab-pane label="其它设置" name="other">
-        <OtherForm
-          ref="otherRef"
-          v-model:activeName="activeName"
-          :is-detail="isDetail"
-          :propFormData="formData"
-        />
-      </el-tab-pane>
-    </el-tabs>
+    <InfoForm
+      ref="infoRef"
+      v-model:activeName="activeName"
+      :is-detail="isDetail"
+      :propFormData="formData"
+    />
     <el-form>
       <el-form-item style="float: right">
         <el-button v-if="!isDetail" :loading="formLoading" type="primary" @click="submitForm">

@@ -2,7 +2,7 @@
   <el-card shadow="never">
     <template #header>
       <div class="my--1.5 flex flex-row items-center justify-between">
-        <CardTitle title="会员概览" />
+        <CardTitle title="用户概览" />
         <!-- 查询条件 -->
         <ShortcutDateRangePicker @change="handleTimeRangeChange" />
       </div>
@@ -35,7 +35,7 @@
         <div class="h-full w-75% flex bg-cyan-50 <lg:w-35% <xl:w-55%">
           <div class="ml-15 h-full flex flex-col justify-center">
             <div class="font-bold">
-              活跃用户数量：{{ analyseData?.comparison?.value?.visitUserCount || 0 }}
+              点餐用户数量：{{ analyseData?.comparison?.value?.visitUserCount || 0 }}
             </div>
             <div class="mt-2 text-3.5">
               环比增长率：{{
@@ -57,19 +57,6 @@
       <div class="relative h-24 flex">
         <div class="w-75% flex bg-slate-50 <lg:w-35% <xl:w-55%">
           <div class="ml-15 h-full flex flex-row gap-x-16">
-            <div class="flex flex-col justify-center">
-              <div class="font-bold">
-                充值用户数量：{{ analyseData?.comparison?.value?.rechargeUserCount || 0 }}
-              </div>
-              <div class="mt-2 text-3.5">
-                环比增长率：{{
-                  calculateRelativeRate(
-                    analyseData?.comparison?.value?.rechargeUserCount,
-                    analyseData?.comparison?.reference?.rechargeUserCount
-                  )
-                }}%
-              </div>
-            </div>
             <div class="flex flex-col justify-center">
               <div class="font-bold">客单价：{{ fenToYuan(analyseData?.atv || 0) }}</div>
             </div>
@@ -100,7 +87,7 @@ const analyseData = ref<MemberAnalyseRespVO>() // 会员分析数据
 
 /** 查询会员概览数据列表 */
 const handleTimeRangeChange = async (times: [dayjs.ConfigType, dayjs.ConfigType]) => {
-  loading.value = true
+  loading.value = !true
   // 查询数据
   analyseData.value = await MemberStatisticsApi.getMemberAnalyse({ times })
   loading.value = false

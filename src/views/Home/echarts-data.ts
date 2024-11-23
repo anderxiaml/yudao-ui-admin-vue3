@@ -110,7 +110,7 @@ export const pieOptions: EChartsOption = {
 
 export const barOptions: EChartsOption = {
   title: {
-    text: t('analysis.weeklyUserActivity'),
+    text: t('analysis.weeklyUserOrder'),
     left: 'center'
   },
   tooltip: {

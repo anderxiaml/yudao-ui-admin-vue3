@@ -1,5 +1,5 @@
 <template>
-  <doc-alert title="【统计】会员、商品、交易统计" url="https://doc.iocoder.cn/mall/statistics/" />
+  <!-- <doc-alert title="【统计】会员、商品、交易统计" url="https://doc.iocoder.cn/mall/statistics/" /> -->
 
   <div class="flex flex-col">
     <el-row :gutter="16" class="summary">
@@ -9,7 +9,7 @@
           icon="fa-solid:users"
           icon-bg-color="text-blue-500"
           icon-color="bg-blue-100"
-          title="累计会员数"
+          title="累计注册人数"
         />
       </el-col>
       <el-col v-loading="loading" :sm="6" :xs="12">
@@ -18,104 +18,34 @@
           icon="fa-solid:user"
           icon-bg-color="text-purple-500"
           icon-color="bg-purple-100"
-          title="累计充值人数"
+          title="累计点餐人数"
         />
       </el-col>
       <el-col v-loading="loading" :sm="6" :xs="12">
         <SummaryCard
           :decimals="2"
           :value="fenToYuan(summary?.rechargePrice || 0)"
-          icon="fa-solid:money-check-alt"
+          icon="fa-solid:yen-sign"
           icon-bg-color="text-yellow-500"
           icon-color="bg-yellow-100"
-          prefix="￥"
-          title="累计充值金额"
-        />
-      </el-col>
-      <el-col v-loading="loading" :sm="6" :xs="12">
-        <SummaryCard
-          :decimals="2"
-          :value="fenToYuan(summary?.expensePrice || 0)"
-          icon="fa-solid:yen-sign"
-          icon-bg-color="text-green-500"
-          icon-color="bg-green-100"
           prefix="￥"
           title="累计消费金额"
         />
       </el-col>
+      <el-col v-loading="loading" :sm="6" :xs="12">
+        <SummaryCard
+          :value="fenToYuan(summary?.expensePrice || 0)"
+          icon="fa-solid:money-check-alt"
+          icon-bg-color="text-green-500"
+          icon-color="bg-green-100"
+          title="累计点餐单数"
+        />
+      </el-col>
     </el-row>
     <el-row :gutter="16" class="mb-4">
-      <el-col :md="18" :sm="24">
+      <el-col>
         <!-- 会员概览 -->
         <MemberFunnelCard />
-      </el-col>
-      <el-col :md="6" :sm="24">
-        <!-- 会员终端 -->
-        <MemberTerminalCard />
-      </el-col>
-    </el-row>
-    <el-row :gutter="16">
-      <el-col :md="18" :sm="24">
-        <el-card shadow="never">
-          <template #header>
-            <CardTitle title="会员地域分布" />
-          </template>
-          <el-row v-loading="loading">
-            <el-col :span="10">
-              <Echart :height="300" :options="areaChartOptions" />
-            </el-col>
-            <el-col :span="14">
-              <el-table :data="areaStatisticsList" :height="300">
-                <el-table-column
-                  :sort-method="(obj1, obj2) => obj1.areaName.localeCompare(obj2.areaName, 'zh-CN')"
-                  align="center"
-                  label="省份"
-                  min-width="80"
-                  prop="areaName"
-                  show-overflow-tooltip
-                  sortable
-                />
-                <el-table-column
-                  align="center"
-                  label="会员数量"
-                  min-width="105"
-                  prop="userCount"
-                  sortable
-                />
-                <el-table-column
-                  align="center"
-                  label="订单创建数量"
-                  min-width="135"
-                  prop="orderCreateUserCount"
-                  sortable
-                />
-                <el-table-column
-                  align="center"
-                  label="订单支付数量"
-                  min-width="135"
-                  prop="orderPayUserCount"
-                  sortable
-                />
-                <el-table-column
-                  :formatter="fenToYuanFormat"
-                  align="center"
-                  label="订单支付金额"
-                  min-width="135"
-                  prop="orderPayPrice"
-                  sortable
-                />
-              </el-table>
-            </el-col>
-          </el-row>
-        </el-card>
-      </el-col>
-      <el-col :md="6" :sm="24">
-        <el-card v-loading="loading" shadow="never">
-          <template #header>
-            <CardTitle title="会员性别比例" />
-          </template>
-          <Echart :height="300" :options="sexChartOptions" />
-        </el-card>
       </el-col>
     </el-row>
   </div>
@@ -294,7 +224,7 @@ const getMemberTerminalStatisticsList = async () => {
 
 /** 初始化 **/
 onMounted(async () => {
-  loading.value = true
+  loading.value = !true
   await Promise.all([
     getMemberSummary(),
     getMemberTerminalStatisticsList(),

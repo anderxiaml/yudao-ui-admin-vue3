@@ -1,6 +1,6 @@
 <!-- 商品中心 - 商品列表  -->
 <template>
-  <doc-alert title="【商品】商品 SPU 与 SKU" url="https://doc.iocoder.cn/mall/product-spu-sku/" />
+  <!-- <doc-alert title="【商品】商品 SPU 与 SKU" url="https://doc.iocoder.cn/mall/product-spu-sku/" /> -->
 
   <!-- 搜索工作栏 -->
   <ContentWrap>
@@ -11,16 +11,16 @@
       class="-mb-15px"
       label-width="68px"
     >
-      <el-form-item label="商品名称" prop="name">
+      <el-form-item label="菜品名称" prop="name">
         <el-input
           v-model="queryParams.name"
           class="!w-240px"
           clearable
-          placeholder="请输入商品名称"
+          placeholder="请输入菜品名称"
           @keyup.enter="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="商品分类" prop="categoryId">
+      <el-form-item label="菜品分类" prop="categoryId">
         <el-cascader
           v-model="queryParams.categoryId"
           :options="categoryList"
@@ -28,19 +28,46 @@
           class="w-1/1"
           clearable
           filterable
-          placeholder="请选择商品分类"
+          placeholder="请选择菜品分类"
         />
       </el-form-item>
-      <el-form-item label="创建时间" prop="createTime">
-        <el-date-picker
-          v-model="queryParams.createTime"
-          :default-time="[new Date('1 00:00:00'), new Date('1 23:59:59')]"
-          class="!w-240px"
-          end-placeholder="结束日期"
-          start-placeholder="开始日期"
-          type="daterange"
-          value-format="YYYY-MM-DD HH:mm:ss"
+      <el-form-item label="菜品规格" prop="categoryId">
+        <el-cascader
+          v-model="queryParams.categoryId"
+          :options="categoryList"
+          :props="defaultProps"
+          class="w-1/1"
+          clearable
+          filterable
+          placeholder="请选择菜品规格"
         />
+      </el-form-item>
+      <el-form-item label="菜品价格" prop="name">
+        <el-input
+          v-model="queryParams.name"
+          class="!w-150px"
+          clearable
+          placeholder="请输入最小值"
+          @keyup.enter="handleQuery"
+        />
+        &nbsp;&nbsp;-&nbsp;&nbsp;
+        <el-input
+          v-model="queryParams.name"
+          class="!w-150px"
+          clearable
+          placeholder="请输入最大值"
+          @keyup.enter="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="菜品状态" prop="status">
+        <el-select v-model="queryParams.status" class="!w-240px" clearable placeholder="全部">
+          <el-option
+            v-for="dict in getIntDictOptions(DICT_TYPE.PRODUCT_SPU_STATUS)"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
+          />
+        </el-select>
       </el-form-item>
       <el-form-item>
         <el-button @click="handleQuery">
@@ -58,17 +85,16 @@
           @click="openForm(undefined)"
         >
           <Icon class="mr-5px" icon="ep:plus" />
-          新增
+          新增菜品
         </el-button>
         <el-button
-          v-hasPermi="['product:spu:export']"
-          :loading="exportLoading"
+          v-hasPermi="['product:spu:create']"
           plain
-          type="success"
-          @click="handleExport"
+          type="primary"
+          @click="openForm(undefined)"
         >
-          <Icon class="mr-5px" icon="ep:download" />
-          导出
+          <Icon class="mr-5px" icon="ep:plus" />
+          新增菜品分类
         </el-button>
       </el-form-item>
     </el-form>
@@ -76,60 +102,10 @@
 
   <!-- 列表 -->
   <ContentWrap>
-    <el-tabs v-model="queryParams.tabType" @tab-click="handleTabClick">
-      <el-tab-pane
-        v-for="item in tabsData"
-        :key="item.type"
-        :label="item.name + '(' + item.count + ')'"
-        :name="item.type"
-      />
-    </el-tabs>
     <el-table v-loading="loading" :data="list">
-      <el-table-column type="expand">
-        <template #default="{ row }">
-          <el-form class="spu-table-expand" label-position="left">
-            <el-row>
-              <el-col :span="24">
-                <el-row>
-                  <el-col :span="8">
-                    <el-form-item label="商品分类:">
-                      <span>{{ formatCategoryName(row.categoryId) }}</span>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="8">
-                    <el-form-item label="市场价:">
-                      <span>{{ fenToYuan(row.marketPrice) }}</span>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="8">
-                    <el-form-item label="成本价:">
-                      <span>{{ fenToYuan(row.costPrice) }}</span>
-                    </el-form-item>
-                  </el-col>
-                </el-row>
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col :span="24">
-                <el-row>
-                  <el-col :span="8">
-                    <el-form-item label="浏览量:">
-                      <span>{{ row.browseCount }}</span>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="8">
-                    <el-form-item label="虚拟销量:">
-                      <span>{{ row.virtualSalesCount }}</span>
-                    </el-form-item>
-                  </el-col>
-                </el-row>
-              </el-col>
-            </el-row>
-          </el-form>
-        </template>
-      </el-table-column>
-      <el-table-column label="商品编号" min-width="140" prop="id" />
-      <el-table-column label="商品信息" min-width="300">
+      <el-table-column label="序号" min-width="140" prop="id" />
+      <el-table-column label="菜品编号" min-width="140" prop="id" />
+      <el-table-column label="菜品图片" min-width="300">
         <template #default="{ row }">
           <div class="flex">
             <el-image
@@ -148,34 +124,28 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="价格" min-width="160" prop="price">
+      <el-table-column align="center" label="菜品名称" min-width="90" prop="salesCount" />
+      <el-table-column align="center" label="菜品分类" min-width="90" prop="salesCount" />
+      <el-table-column align="center" label="菜品规格" min-width="90" prop="stock" />
+      <el-table-column align="center" label="菜品价格" min-width="160" prop="price">
         <template #default="{ row }"> ¥ {{ fenToYuan(row.price) }}</template>
       </el-table-column>
-      <el-table-column align="center" label="销量" min-width="90" prop="salesCount" />
-      <el-table-column align="center" label="库存" min-width="90" prop="stock" />
-      <el-table-column align="center" label="排序" min-width="70" prop="sort" />
-      <el-table-column align="center" label="销售状态" min-width="80">
-        <template #default="{ row }">
-          <template v-if="row.status >= 0">
-            <el-switch
-              v-model="row.status"
-              :active-value="1"
-              :inactive-value="0"
-              active-text="上架"
-              inactive-text="下架"
-              inline-prompt
-              @change="handleStatusChange(row)"
-            />
-          </template>
-          <template v-else>
-            <el-tag type="info">回收站</el-tag>
-          </template>
+      <el-table-column align="center" label="菜品状态" min-width="100" prop="status">
+        <template #default="scope">
+          <dict-tag :type="DICT_TYPE.PRODUCT_SPU_STATUS" :value="scope.row.status" />
         </template>
       </el-table-column>
       <el-table-column
         :formatter="dateFormatter"
         align="center"
         label="创建时间"
+        prop="createTime"
+        width="180"
+      />
+      <el-table-column
+        :formatter="dateFormatter"
+        align="center"
+        label="修改时间"
         prop="createTime"
         width="180"
       />
@@ -188,36 +158,16 @@
             type="primary"
             @click="openForm(row.id)"
           >
-            修改
+            编辑
           </el-button>
-          <template v-if="queryParams.tabType === 4">
-            <el-button
-              v-hasPermi="['product:spu:delete']"
-              link
-              type="danger"
-              @click="handleDelete(row.id)"
-            >
-              删除
-            </el-button>
-            <el-button
-              v-hasPermi="['product:spu:update']"
-              link
-              type="primary"
-              @click="handleStatus02Change(row, ProductSpuStatusEnum.DISABLE.status)"
-            >
-              恢复
-            </el-button>
-          </template>
-          <template v-else>
-            <el-button
-              v-hasPermi="['product:spu:update']"
-              link
-              type="danger"
-              @click="handleStatus02Change(row, ProductSpuStatusEnum.RECYCLE.status)"
-            >
-              回收
-            </el-button>
-          </template>
+          <el-button
+            v-hasPermi="['product:spu:delete']"
+            link
+            type="danger"
+            @click="handleDelete(row.id)"
+          >
+            删除
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -238,6 +188,7 @@ import { defaultProps, handleTree, treeToString } from '@/utils/tree'
 import { ProductSpuStatusEnum } from '@/utils/constants'
 import { fenToYuan } from '@/utils'
 import download from '@/utils/download'
+import { DICT_TYPE, getIntDictOptions } from '@/utils/dict'
 import * as ProductSpuApi from '@/api/mall/product/spu'
 import * as ProductCategoryApi from '@/api/mall/product/category'
 
@@ -287,6 +238,7 @@ const queryParams = ref({
   tabType: 0,
   name: '',
   categoryId: undefined,
+  status: '',
   createTime: undefined
 }) // 查询参数
 const queryFormRef = ref() // 搜索的表单Ref

@@ -1,5 +1,5 @@
 <template>
-  <doc-alert title="【统计】会员、商品、交易统计" url="https://doc.iocoder.cn/mall/statistics/" />
+  <!-- <doc-alert title="【统计】会员、商品、交易统计" url="https://doc.iocoder.cn/mall/statistics/" /> -->
 
   <div class="flex flex-col">
     <el-row :gutter="16" class="summary">
@@ -80,7 +80,7 @@
         <el-col :md="6" :sm="12" :xs="24">
           <SummaryCard
             title="营业额"
-            tooltip="商品支付金额、充值金额"
+            tooltip="营业额"
             icon="fa-solid:yen-sign"
             icon-color="bg-blue-100"
             icon-bg-color="text-blue-500"
@@ -97,8 +97,8 @@
         </el-col>
         <el-col :md="6" :sm="12" :xs="24">
           <SummaryCard
-            title="商品支付金额"
-            tooltip="用户购买商品的实际支付金额，包括微信支付、余额支付、支付宝支付、线下支付金额（拼团商品在成团之后计入，线下支付订单在后台确认支付后计入）"
+            title="菜品支付金额"
+            tooltip="菜品支付金额"
             icon="fa-solid:shopping-cart"
             icon-color="bg-purple-100"
             icon-bg-color="text-purple-500"
@@ -115,26 +115,8 @@
         </el-col>
         <el-col :md="6" :sm="12" :xs="24">
           <SummaryCard
-            title="充值金额"
-            tooltip="用户成功充值的金额"
-            icon="fa-solid:money-check-alt"
-            icon-color="bg-yellow-100"
-            icon-bg-color="text-yellow-500"
-            prefix="￥"
-            :decimals="2"
-            :value="fenToYuan(trendSummary?.value?.rechargePrice || 0)"
-            :percent="
-              calculateRelativeRate(
-                trendSummary?.value?.rechargePrice,
-                trendSummary?.reference?.rechargePrice
-              )
-            "
-          />
-        </el-col>
-        <el-col :md="6" :sm="12" :xs="24">
-          <SummaryCard
             title="支出金额"
-            tooltip="余额支付金额、支付佣金金额、商品退款金额"
+            tooltip="支出金额"
             icon="ep:warning-filled"
             icon-color="bg-green-100"
             icon-bg-color="text-green-500"
@@ -151,44 +133,8 @@
         </el-col>
         <el-col :md="6" :sm="12" :xs="24">
           <SummaryCard
-            title="余额支付金额"
-            tooltip="用户下单时使用余额实际支付的金额"
-            icon="fa-solid:wallet"
-            icon-color="bg-cyan-100"
-            icon-bg-color="text-cyan-500"
-            prefix="￥"
-            :decimals="2"
-            :value="fenToYuan(trendSummary?.value?.walletPayPrice || 0)"
-            :percent="
-              calculateRelativeRate(
-                trendSummary?.value?.walletPayPrice,
-                trendSummary?.reference?.walletPayPrice
-              )
-            "
-          />
-        </el-col>
-        <el-col :md="6" :sm="12" :xs="24">
-          <SummaryCard
-            title="支付佣金金额"
-            tooltip="后台给推广员支付的推广佣金，以实际支付为准"
-            icon="fa-solid:award"
-            icon-color="bg-yellow-100"
-            icon-bg-color="text-yellow-500"
-            prefix="￥"
-            :decimals="2"
-            :value="fenToYuan(trendSummary?.value?.brokerageSettlementPrice || 0)"
-            :percent="
-              calculateRelativeRate(
-                trendSummary?.value?.brokerageSettlementPrice,
-                trendSummary?.reference?.brokerageSettlementPrice
-              )
-            "
-          />
-        </el-col>
-        <el-col :md="6" :sm="12" :xs="24">
-          <SummaryCard
-            title="商品退款金额"
-            tooltip="用户成功退款的商品金额"
+            title="菜品退款金额"
+            tooltip="菜品退款金额"
             icon="fa-solid:times-circle"
             icon-color="bg-blue-100"
             icon-bg-color="text-blue-500"
@@ -253,7 +199,7 @@ const lineChartOptions = reactive<EChartsOption>({
   },
   series: [
     { name: '营业额', type: 'line', smooth: true },
-    { name: '商品支付金额', type: 'line', smooth: true },
+    { name: '菜品支付金额', type: 'line', smooth: true },
     { name: '充值金额', type: 'line', smooth: true },
     { name: '支出金额', type: 'line', smooth: true }
   ],
